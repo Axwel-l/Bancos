@@ -10,7 +10,8 @@
 Para fazer funcionar:<br/>
 -Baixe o repositorio<br/>
 -Opcional: Criar um Ambiente virtual <br/>
-    python -m venv nome da venv<br/>
+    python -m venv nome_da_venv<br/>
+    Para ativar a venv: nome_da_venv\Scripts\Activate.ps1<br/>
 -Baixar Bibliotecas Flask,Pandas e xlrd atravez do Terminal<br/>
     pip install Flask pandas xlrd<br/>
 -Execute o arquivo e va para a porta indicada no Terminal,provavelmente a http://127.0.0.1:5000<br/>
