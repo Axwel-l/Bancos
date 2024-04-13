@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bancos</title>
+</head>
+<body>
+    <h1>Bancos</h1>
+
+    <label for="codigo">Código de Compensação:</label>
+    <input type="text" id="codigo">
+    <button onclick="consultarBanco()">Consultar</button>
+
+    <div id="Bancos">
+        <ul id="listaBancos"></ul>
+    </div>
+
+    <div id="resultado"></div>
+
+    <script>
+        function listarBancos() {
+            fetch('/api/')
+                .then(response => response.json())
+                .then(data => {
+                    var listaBancos = document.getElementById('listaBancos');
+                    listaBancos.innerHTML = '';
+                    data.forEach(banco => {
+                        var p = document.createElement('p');
+                        p.textContent = `Código: ${banco[0]}    |  Nome: ${banco[1]}`;
+                        listaBancos.appendChild(p);
+                    });
+                })
+        }
+        function consultarBanco() {
+            var codigo = document.getElementById('codigo').value;
+
+            fetch('/api/?codigo=' + codigo)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Banco não encontrado');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    mostrarResultado(data);
+                })
+        }
+        function mostrarResultado(banco) {
+            var resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = '';
+
+            if (banco) {
+                resultadoDiv.innerHTML = `
+                    <h2>Dados do Banco</h2>
+                    <p><strong>Nome:</strong> ${banco[1]}<strong>Código:</strong> ${banco[0]}</p>
+                `;
+            }
+            document.getElementById('Bancos').style.display = 'none';
+        }
+        window.onload = function() {
+            listarBancos();
+        };
+    </script>
+</body>
+</html>
